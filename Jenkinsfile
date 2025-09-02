@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'M3'   // matches the name you configured under Global Tool Config
+        maven 'M3'
     }
 
     stages {
@@ -21,17 +21,12 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // Stop and remove existing container
                 sh 'docker stop C1 || true'
                 sh 'docker rm C1 || true'
-
-                // Copy the WAR file (name from pom.xml build output)
-                sh 'cp target/TomcatMavenApp-2.0.war /tmp/'
-
-                // Run Tomcat with WAR
+                sh 'cp target/*.war /tmp/'
                 sh '''
                    docker run -d -p 8001:8080 \
-                   -v /tmp/TomcatMavenApp-2.0.war:/usr/local/tomcat/webapps/TomcatMavenApp-2.0.war \
+                   -v /tmp/*.war:/usr/local/tomcat/webapps/app.war \
                    --name C1 tomcat:latest
                 '''
             }
