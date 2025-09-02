@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'master',
-                    url: 'https://github.com/<your-username>/<repo-name>.git'
+                    url: 'https://github.com/Nithien-SA/TomcatMavenApp.git'
             }
         }
 
